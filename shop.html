@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop</title>
+    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to bottom right, #222, #444);
+            color: #fff;
+        }
+        .navbar {
+            background-color: rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+        }
+        .navbar a {
+            float: left;
+            display: block;
+            color: #fff;
+            text-align: center;
+            padding: 14px 20px;
+            text-decoration: none;
+        }
+        .navbar a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            color: #fff;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+        h1 {
+            margin-top: 0;
+            color: #fff;
+        }
+        .product {
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 10px;
+            border-radius: 10px;
+            overflow: hidden;
+            background-color: rgba(0, 0, 0, 0.5);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+        .product img {
+            width: 100px;
+            float: left;
+            margin-right: 10px;
+        }
+        .product-details {
+            overflow: hidden;
+        }
+        .product button {
+            float: right;
+            padding: 5px 10px;
+            cursor: pointer;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+        }
+        button:hover {
+            background-color: #555;
+        }
+        button:focus {
+            outline: none;
+        }
+
+        .cart-tab {
+            position: fixed;
+            top: 50%;
+            right: 0;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            color: #fff;
+            padding: 10px;
+            border-top-left-radius: 10px;
+            border-bottom-left-radius: 10px;
+            cursor: pointer;
+            z-index: 9999;
+        }
+        .cart-tab:hover {
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+        .cart-content {
+            position: fixed;
+            top: 50%;
+            right: 0;
+            transform: translateY(-50%);
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px 0 0 10px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            display: none;
+        }
+        .cart-item {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="navbar">
+    <a href="index.html">Home</a>
+    <a href="shop.html">Shop</a>
+    <a href="aboutus.html">About Us</a>
+</div>
+
+<div class="container">
+    <h2>Products</h2>
+    <div class="product">
+        <img src="/images/5-2-sandwich-transparent.png" alt="Product 1">
+        <div class="product-details">
+            <span>Smör Gås 1 - $10</span>
+            <button onclick="addToCart('Product 1', 10)">Add to Cart</button>
+        </div>
+    </div>
+    <div class="product">
+        <img src="/images/6-2-sandwich-png-file-thumb.png" alt="Product 2">
+        <div class="product-details">
+            <span>Smör Gås 2 - $20</span>
+            <button onclick="addToCart('Product 2', 20)">Add to Cart</button>
+        </div>
+    </div>
+</div>
+
+
+<div class="cart-tab" id="cartTab" onclick="toggleCart()">
+    <i id="cartIcon" class="fa fa-arrow-left"></i>
+</div>
+
+<div class="cart-content" id="cart">
+
+</div>
+
+<script>
+    let cartOpen = false;
+
+    function toggleCart() {
+        const cartContent = document.querySelector('.cart-content');
+        const cartIcon = document.getElementById('cartIcon');
+
+        if (cartOpen) {
+            cartContent.style.display = 'none';
+            cartIcon.classList.remove('fa-arrow-right');
+            cartIcon.classList.add('fa-arrow-left');
+        } else {
+            cartContent.style.display = 'block';
+            cartIcon.classList.remove('fa-arrow-left');
+            cartIcon.classList.add('fa-arrow-right');
+        }
+
+        cartOpen = !cartOpen;
+    }
+
+    let cartItems = [];
+
+    function addToCart(productName, price) {
+        cartItems.push({ name: productName, price: price });
+        displayCart();
+    }
+
+    function removeFromCart(index) {
+        cartItems.splice(index, 1);
+        displayCart();
+    }
+
+    function displayCart() {
+        const cartElement = document.getElementById('cart');
+        cartElement.innerHTML = '';
+        let totalPrice = 0;
+        cartItems.forEach((item, index) => {
+            cartElement.innerHTML += `<div class="cart-item">${item.name} - $${item.price} <button onclick="removeFromCart(${index})">Remove</button></div>`;
+            totalPrice += item.price;
+        });
+        cartElement.innerHTML += `<div><strong>Total: $${totalPrice}</strong></div>`;
+    }
+</script>
+
+</body>
+</html>
